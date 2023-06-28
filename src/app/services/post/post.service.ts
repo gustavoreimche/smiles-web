@@ -57,7 +57,7 @@ export class PostService {
         };
         return post;
       } else {
-        return null; // ou trate como preferir quando o documento não existir
+        return null;
       }
     });
   }

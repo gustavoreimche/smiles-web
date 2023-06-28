@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { finalize } from 'rxjs/operators';
 import {
   Storage,
+  deleteObject,
   getDownloadURL,
+  listAll,
   ref,
   uploadBytesResumable,
 } from '@angular/fire/storage';
@@ -37,5 +38,24 @@ export class ImagesService {
   downloadFile(fileName: string): Promise<string> {
     const storageRef = ref(this.storage, fileName);
     return getDownloadURL(storageRef);
+  }
+
+  deleteFile(fileName: string): Promise<void> {
+    const storageRef = ref(this.storage, fileName);
+    return deleteObject(storageRef);
+  }
+
+  getAll() {
+    const storageRef = ref(this.storage);
+
+    listAll(storageRef)
+      .then((res) => {
+        res.items.forEach((itemRef) => {
+          console.log(itemRef.name);
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   }
 }
